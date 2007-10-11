@@ -1,16 +1,16 @@
-%define lib_major 3
-%define lib_major_gmpxx 3
-%define lib_major_mp 3
+%define major 3
+%define major_xx 4
+%define major_mp 3
 
-%define lib_name	%mklibname %{name} %{lib_major}
-%define lib_name_gmpxx	%mklibname %{name}xx %{lib_major_gmpxx}
-%define	lib_name_mp	%mklibname %{name}mp %{lib_major_mp} 
+%define lib_name	%mklibname %{name} %{major}
+%define lib_name_gmpxx	%mklibname %{name}xx %{major_xx}
+%define	lib_name_mp	%mklibname %{name}mp %{major_mp} 
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	4.2.1
+Version:	4.2.2
 Release:	%mkrel 1
-License:	LGPL 
+License:	LGPLv2+ 
 Group:		System/Libraries
 URL:		http://www.swox.com/gmp/
 Source0:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2
@@ -74,6 +74,7 @@ Summary:	C++ support for GMP
 Group:		System/Libraries
 Requires:	%{lib_name} = %{version}-%{release}
 Provides:	libgmpxx = %{version}-%{release}
+Obsoletes:	%mklibname %{name}xx 3
 
 %description -n	%{lib_name_gmpxx}
 C++ support for GMP.
@@ -85,6 +86,7 @@ Requires:	%{lib_name}-devel = %{version}-%{release}
 Requires:	%{lib_name_gmpxx} = %{version}-%{release}
 Provides:	lib%{name}xx-devel = %{version}-%{release}
 Provides:	gmpxx-devel = %{version}-%{release}
+Obsoletes:	%mklibname %{name}xx 3 -d
 
 %description -n	%{lib_name_gmpxx}-devel
 C++ Development tools for the GMP.
@@ -116,11 +118,11 @@ Development tools for Berkley MP compatibility library for GMP.
 
 %check
 # All tests must pass
-%{make} check
+make check
 
 %install
 %{__rm} -rf %{buildroot}
-%{makeinstall}
+%makeinstall_std
 
 %post -n %{lib_name} -p /sbin/ldconfig
 %postun -n %{lib_name} -p /sbin/ldconfig
@@ -143,7 +145,7 @@ Development tools for Berkley MP compatibility library for GMP.
 %files -n %{lib_name}
 %defattr(-,root,root)
 %doc COPYING.LIB NEWS README
-%{_libdir}/libgmp.so.*
+%{_libdir}/libgmp.so.%{major}*
 
 %files -n %{lib_name}-devel
 %defattr(-,root,root)
@@ -156,7 +158,7 @@ Development tools for Berkley MP compatibility library for GMP.
 
 %files -n %{lib_name_gmpxx}
 %defattr(-,root,root)
-%{_libdir}/libgmpxx.so.*
+%{_libdir}/libgmpxx.so.%{major_xx}*
 
 %files -n %{lib_name_gmpxx}-devel
 %defattr(-,root,root)
@@ -167,7 +169,7 @@ Development tools for Berkley MP compatibility library for GMP.
 
 %files -n %{lib_name_mp}
 %defattr(-,root,root)
-%{_libdir}/libmp.so.*
+%{_libdir}/libmp.so.%{major_mp}*
 
 %files -n %{lib_name_mp}-devel
 %defattr(-,root,root)
@@ -175,5 +177,3 @@ Development tools for Berkley MP compatibility library for GMP.
 %{_libdir}/libmp.a
 %{_libdir}/libmp.so
 %{_libdir}/libmp.la
-
-
