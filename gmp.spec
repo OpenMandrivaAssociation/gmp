@@ -17,6 +17,7 @@ Source0:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2.sig
 BuildRequires:	autoconf2.5
 BuildRequires:  automake1.7
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
