@@ -124,14 +124,26 @@ make check
 %{__rm} -rf %{buildroot}
 %makeinstall_std
 
+%if %mdkversion < 200900
 %post -n %{lib_name} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{lib_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %post -n %{lib_name_gmpxx} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{lib_name_gmpxx} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %post -n %{lib_name_mp} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{lib_name_mp} -p /sbin/ldconfig
+%endif
 
 %post -n %{lib_name}-devel
 %_install_info %{name}.info
