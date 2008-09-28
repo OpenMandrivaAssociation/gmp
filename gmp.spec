@@ -2,21 +2,26 @@
 %define major_xx 4
 %define major_mp 3
 
-%define lib_name	%mklibname %{name} %{major}
-%define lib_name_gmpxx	%mklibname %{name}xx %{major_xx}
-%define	lib_name_mp	%mklibname %{name}mp %{major_mp} 
+%define libname %mklibname %{name} %{major}
+%define develname %mklibname %{name} -d
+%define libname_gmpxx %mklibname %{name}xx %{major_xx}
+%define develname_gmpxx %mklibname %{name}xx -d
+%define	libname_mp %mklibname %{name}mp %{major_mp} 
+%define	develname_mp %mklibname %{name}mp -d
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	4.2.4
 Release:	%mkrel 1
-License:	LGPLv2+ 
+License:	GPLv3 
 Group:		System/Libraries
 URL:		http://www.swox.com/gmp/
 Source0:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2
 Source1:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2.sig
-BuildRequires:	autoconf2.5
-BuildRequires:  automake1.7
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	readline-devel
+BuildRequires:	ncurses-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -33,12 +38,12 @@ GNU MP is fast for several reasons:
    - it generally emphasizes speed over simplicity/elegance in its
      operations
 
-%package -n	%{lib_name}
+%package -n %{libname}
 Summary:	A GNU arbitrary precision library
 Group:		System/Libraries
 Provides:	lib%{name} = %{version}-%{release}
 
-%description -n	%{lib_name}
+%description -n	%{libname}
 The gmp package contains GNU MP, a library for arbitrary precision
 arithmetic, signed integers operations, rational numbers and floating
 point numbers. GNU MP is designed for speed, for both small and very
@@ -52,16 +57,17 @@ GNU MP is fast for several reasons:
   - it generally emphasizes speed over simplicity/elegance in its
     operations
 
-%package -n	%{lib_name}-devel
+%package -n %{develname}
 Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
-Requires(post): rpm-helper
-Requires(preun): rpm-helper
-Requires:	%{lib_name} = %{version}-%{release}
+Requires(post):	rpm-helper
+Requires(preun):	rpm-helper
+Requires:	%{libname} = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%{mklibname %{name} 3 -d} < 4.2.4
 
-%description -n	%{lib_name}-devel
+%description -n %{develname}
 The static libraries, header files and documentation for using the GNU MP
 arbitrary precision library in applications.
 
@@ -69,52 +75,58 @@ If you want to develop applications which will use the GNU MP library,
 you'll need to install the gmp-devel package.  You'll also need to
 install the gmp package.
 
-%package -n	%{lib_name_gmpxx}
+%package -n %{libname_gmpxx}
 Summary:	C++ support for GMP
 Group:		System/Libraries
-Requires:	%{lib_name} = %{version}-%{release}
+Requires:	%{libname} = %{version}-%{release}
 Provides:	libgmpxx = %{version}-%{release}
 Obsoletes:	%mklibname %{name}xx 3
 
-%description -n	%{lib_name_gmpxx}
+%description -n %{libname_gmpxx}
 C++ support for GMP.
 
-%package -n	%{lib_name_gmpxx}-devel
+%package -n %{develname_gmpxx}
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
-Requires:	%{lib_name}-devel = %{version}-%{release}
-Requires:	%{lib_name_gmpxx} = %{version}-%{release}
+Requires:	%{libname}-devel = %{version}-%{release}
+Requires:	%{libname_gmpxx} = %{version}-%{release}
 Provides:	lib%{name}xx-devel = %{version}-%{release}
 Provides:	gmpxx-devel = %{version}-%{release}
-Obsoletes:	%mklibname %{name}xx 3 -d
+Obsoletes:	%{mklibname %{name}xx 3 -d} < 4.2.4
+Provides:	%{mklibname %{name}xx 3 -d}
 
-%description -n	%{lib_name_gmpxx}-devel
+%description -n %{develname_gmpxx}
 C++ Development tools for the GMP.
 
-%package -n	%{lib_name_mp}
+%package -n %{libname_mp}
 Summary:	Berkley MP compatibility library for GMP
 Group:		System/Libraries
 Provides:	libgmp_mp = %{version}-%{release}
 
-%description -n	%{lib_name_mp}
+%description -n %{libname_mp}
 Berkley MP compatibility library for GMP.
 
-%package -n	%{lib_name_mp}-devel
+%package -n %{develname_mp}
 Summary:	Development tools for Berkley MP compatibility library for GMP
 Group:		Development/C
-Requires:	%{lib_name_mp} = %{version}-%{release}
+Requires:	%{libname_mp} = %{version}-%{release}
 Provides:	lib%{name}mp-devel = %{version}-%{release}
 Provides:	mp-devel = %{version}-%{release}
+Obsoletes:	%{mklibname %{name}mp 3 -d} < 4.2.4
+Provides:	%{mklibname %{name}mp 3 -d}
 
-%description -n	%{lib_name_mp}-devel
+%description -n %{develname_mp}
 Development tools for Berkley MP compatibility library for GMP.
 
 %prep
 %setup -q
 
 %build
-%{configure2_5x} --enable-cxx --enable-mpbsd
-%{make}
+%configure2_5x \
+	 --enable-cxx \
+	 --enable-mpbsd \
+	 --enable-fft
+%make
 
 %check
 # All tests must pass
@@ -125,41 +137,41 @@ make check
 %makeinstall_std
 
 %if %mdkversion < 200900
-%post -n %{lib_name} -p /sbin/ldconfig
+%post -n %{libname} -p /sbin/ldconfig
 %endif
 %if %mdkversion < 200900
-%postun -n %{lib_name} -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
 %endif
 
 %if %mdkversion < 200900
-%post -n %{lib_name_gmpxx} -p /sbin/ldconfig
+%post -n %{libname_gmpxx} -p /sbin/ldconfig
 %endif
 %if %mdkversion < 200900
-%postun -n %{lib_name_gmpxx} -p /sbin/ldconfig
+%postun -n %{libname_gmpxx} -p /sbin/ldconfig
 %endif
 
 %if %mdkversion < 200900
-%post -n %{lib_name_mp} -p /sbin/ldconfig
+%post -n %{libname_mp} -p /sbin/ldconfig
 %endif
 %if %mdkversion < 200900
-%postun -n %{lib_name_mp} -p /sbin/ldconfig
+%postun -n %{libname_mp} -p /sbin/ldconfig
 %endif
 
-%post -n %{lib_name}-devel
+%post -n %{develname}
 %_install_info %{name}.info
 
-%preun -n %{lib_name}-devel
+%preun -n %{develname}
 %_remove_install_info %{name}.info
 
 %clean
 %{__rm} -rf %{buildroot}
 
-%files -n %{lib_name}
+%files -n %{libname}
 %defattr(-,root,root)
-%doc COPYING.LIB NEWS README
+%doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
 
-%files -n %{lib_name}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %doc doc demos
 %{_libdir}/libgmp.so
@@ -168,22 +180,22 @@ make check
 %{_includedir}/gmp.h
 %{_infodir}/gmp.info*
 
-%files -n %{lib_name_gmpxx}
+%files -n %{libname_gmpxx}
 %defattr(-,root,root)
 %{_libdir}/libgmpxx.so.%{major_xx}*
 
-%files -n %{lib_name_gmpxx}-devel
+%files -n %{develname_gmpxx}
 %defattr(-,root,root)
 %{_libdir}/libgmpxx.so
 %{_libdir}/libgmpxx.a
 %{_libdir}/libgmpxx.la
 %{_includedir}/gmpxx.h
 
-%files -n %{lib_name_mp}
+%files -n %{libname_mp}
 %defattr(-,root,root)
 %{_libdir}/libmp.so.%{major_mp}*
 
-%files -n %{lib_name_mp}-devel
+%files -n %{develname_mp}
 %defattr(-,root,root)
 %{_includedir}/mp.h
 %{_libdir}/libmp.a
