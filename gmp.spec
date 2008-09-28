@@ -8,7 +8,7 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	4.2.3
+Version:	4.2.4
 Release:	%mkrel 1
 License:	LGPLv2+ 
 Group:		System/Libraries
