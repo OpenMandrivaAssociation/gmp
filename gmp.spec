@@ -12,7 +12,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	4.2.4
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv3 
 Group:		System/Libraries
 URL:		http://www.swox.com/gmp/
@@ -88,12 +88,11 @@ C++ support for GMP.
 %package -n %{develname_gmpxx}
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
-Requires:	%{libname}-devel = %{version}-%{release}
+Requires:	%{develname} = %{version}-%{release}
 Requires:	%{libname_gmpxx} = %{version}-%{release}
 Provides:	lib%{name}xx-devel = %{version}-%{release}
 Provides:	gmpxx-devel = %{version}-%{release}
-Obsoletes:	%{mklibname %{name}xx 3 -d} < 4.2.4
-Provides:	%{mklibname %{name}xx 3 -d}
+Obsoletes:	%{mklibname %{name}xx 4 -d} < 4.2.4
 
 %description -n %{develname_gmpxx}
 C++ Development tools for the GMP.
@@ -113,7 +112,6 @@ Requires:	%{libname_mp} = %{version}-%{release}
 Provides:	lib%{name}mp-devel = %{version}-%{release}
 Provides:	mp-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}mp 3 -d} < 4.2.4
-Provides:	%{mklibname %{name}mp 3 -d}
 
 %description -n %{develname_mp}
 Development tools for Berkley MP compatibility library for GMP.
