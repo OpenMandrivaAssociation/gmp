@@ -12,7 +12,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	4.2.4
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv3 
 Group:		System/Libraries
 URL:		http://www.swox.com/gmp/
