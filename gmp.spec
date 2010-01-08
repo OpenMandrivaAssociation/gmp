@@ -11,13 +11,13 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	4.3.1
+Version:	4.3.2
 Release:	%mkrel 1
 License:	GPLv3 
 Group:		System/Libraries
-URL:		http://www.swox.com/gmp/
-Source0:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2
-Source1:	ftp://ftp.gnu.org/pub/gnu/gmp/%{name}-%{version}.tar.bz2.sig
+URL:		http://gmplib.org/
+Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{version}/%{name}-%{version}.tar.bz2
+Source1:	ftp://ftp.gnu.org/pub/gnu/%{name}-%{version}/%{name}-%{version}.tar.bz2.sig
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
