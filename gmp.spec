@@ -1,4 +1,4 @@
-%define major 3
+%define major 10
 %define major_xx 4
 %define major_mp 3
 
