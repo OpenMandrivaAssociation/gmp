@@ -12,7 +12,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	5.0.1
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv3 
 Group:		System/Libraries
 URL:		http://gmplib.org/
@@ -23,6 +23,14 @@ BuildRequires:	flex
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+
+#   This patch should not really be required, as the real cause of the
+# double free may be a glibc/ld bug with C++ objects initialized before
+# main and/or destructed after main returns
+#   The patch is just a basic "paranoia" check and should not cause any
+# problems other than preventing a double free of gmp_randstate_t
+# fields when ~gmp_randclass is called from glibc's _run_exit_handlers
+Patch0:		gmp-5.0.1-sagemath-double-free.patch
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
@@ -118,6 +126,7 @@ Development tools for Berkley MP compatibility library for GMP.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure2_5x \
