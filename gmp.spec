@@ -11,9 +11,9 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	5.0.1
-Release:	%mkrel 4
-License:	GPLv3 
+Version:	5.0.2
+Release:	%mkrel 1
+License:	GPLv3
 Group:		System/Libraries
 URL:		http://gmplib.org/
 Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{version}/%{name}-%{version}.tar.bz2
