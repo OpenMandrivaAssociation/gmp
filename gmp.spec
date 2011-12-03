@@ -12,7 +12,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	5.0.2
-Release:	%mkrel 1
+Release:	2
 License:	GPLv3
 Group:		System/Libraries
 URL:		http://gmplib.org/
@@ -22,7 +22,6 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 #   This patch should not really be required, as the real cause of the
 # double free may be a glibc/ld bug with C++ objects initialized before
@@ -70,7 +69,7 @@ Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} >= %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name} 3 -d} < 4.2.4
@@ -86,7 +85,7 @@ install the gmp package.
 %package -n %{libname_gmpxx}
 Summary:	C++ support for GMP
 Group:		System/Libraries
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} >= %{version}-%{release}
 Provides:	libgmpxx = %{version}-%{release}
 Obsoletes:	%mklibname %{name}xx 3
 
@@ -96,8 +95,8 @@ C++ support for GMP.
 %package -n %{develname_gmpxx}
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
-Requires:	%{develname} = %{version}-%{release}
-Requires:	%{libname_gmpxx} = %{version}-%{release}
+Requires:	%{develname} >= %{version}-%{release}
+Requires:	%{libname_gmpxx} >= %{version}-%{release}
 Provides:	lib%{name}xx-devel = %{version}-%{release}
 Provides:	gmpxx-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}xx 4 -d} < 4.2.4
@@ -116,7 +115,7 @@ Berkley MP compatibility library for GMP.
 %package -n %{develname_mp}
 Summary:	Development tools for Berkley MP compatibility library for GMP
 Group:		Development/C
-Requires:	%{libname_mp} = %{version}-%{release}
+Requires:	%{libname_mp} >= %{version}-%{release}
 Provides:	lib%{name}mp-devel = %{version}-%{release}
 Provides:	mp-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}mp 3 -d} < 4.2.4
@@ -141,28 +140,11 @@ make check
 
 %install
 %{__rm} -rf %{buildroot}
+
 %makeinstall_std
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libname_gmpxx} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname_gmpxx} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libname_mp} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname_mp} -p /sbin/ldconfig
-%endif
+# cleanup
+rm -f %{buildroot}%{_libdir}/*.*a
 
 %post -n %{develname}
 %_install_info %{name}.info
@@ -170,41 +152,26 @@ make check
 %preun -n %{develname}
 %_remove_install_info %{name}.info
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files -n %{libname}
-%defattr(-,root,root)
 %doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %doc doc demos
 %{_libdir}/libgmp.so
-%{_libdir}/libgmp.a
-%{_libdir}/libgmp.la 
 %{_includedir}/gmp.h
 %{_infodir}/gmp.info*
 
 %files -n %{libname_gmpxx}
-%defattr(-,root,root)
 %{_libdir}/libgmpxx.so.%{major_xx}*
 
 %files -n %{develname_gmpxx}
-%defattr(-,root,root)
 %{_libdir}/libgmpxx.so
-%{_libdir}/libgmpxx.a
-%{_libdir}/libgmpxx.la
 %{_includedir}/gmpxx.h
 
 %files -n %{libname_mp}
-%defattr(-,root,root)
 %{_libdir}/libmp.so.%{major_mp}*
 
 %files -n %{develname_mp}
-%defattr(-,root,root)
 %{_includedir}/mp.h
-%{_libdir}/libmp.a
 %{_libdir}/libmp.so
-%{_libdir}/libmp.la
