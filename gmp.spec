@@ -37,7 +37,7 @@ GNU MP is fast for several reasons:
    - it generally emphasizes speed over simplicity/elegance in its
      operations
 
-%package -n %{libname}
+%package -n	%{libname}
 Summary:	A GNU arbitrary precision library
 Group:		System/Libraries
 
