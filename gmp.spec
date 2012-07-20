@@ -132,9 +132,6 @@ make check
 %install
 %makeinstall_std
 
-# cleanup
-rm -f %{buildroot}%{_libdir}/*.*a
-
 %files -n %{libname}
 %doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
@@ -142,6 +139,7 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %files -n %{develname}
 %doc doc demos
 %{_libdir}/libgmp.so
+%{_libdir}/libgmp.a
 %{_includedir}/gmp.h
 %{_infodir}/gmp.info*
 
@@ -150,6 +148,7 @@ rm -f %{buildroot}%{_libdir}/*.*a
 
 %files -n %{develname_gmpxx}
 %{_libdir}/libgmpxx.so
+%{_libdir}/libgmpxx.a
 %{_includedir}/gmpxx.h
 
 %files -n %{libname_mp}
@@ -158,3 +157,4 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %files -n %{develname_mp}
 %{_includedir}/mp.h
 %{_libdir}/libmp.so
+%{_libdir}/libmp.a
