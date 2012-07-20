@@ -128,12 +128,6 @@ make check
 # cleanup
 rm -f %{buildroot}%{_libdir}/*.*a
 
-%post -n %{develname}
-%_install_info %{name}.info
-
-%preun -n %{develname}
-%_remove_install_info %{name}.info
-
 %files -n %{libname}
 %doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
