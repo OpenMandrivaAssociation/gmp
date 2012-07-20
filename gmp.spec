@@ -24,6 +24,8 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
+# XXX this should really be the default behaviour of rpm..
+%define	__noautoreqfiles	%{_docdir}
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
