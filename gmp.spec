@@ -55,16 +55,16 @@ GNU MP is fast for several reasons:
   - it generally emphasizes speed over simplicity/elegance in its
     operations
 
-%package -n %{develname}
+%package -n	%{develname}
 Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
 Requires(post):	rpm-helper
-Requires(preun):	rpm-helper
+Requires(preun):rpm-helper
 Requires:	%{libname} >= %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name} 3 -d} < 4.2.4
 
-%description -n %{develname}
+%description -n	%{develname}
 The static libraries, header files and documentation for using the GNU MP
 arbitrary precision library in applications.
 
@@ -72,16 +72,16 @@ If you want to develop applications which will use the GNU MP library,
 you'll need to install the gmp-devel package.  You'll also need to
 install the gmp package.
 
-%package -n %{libname_gmpxx}
+%package -n	%{libname_gmpxx}
 Summary:	C++ support for GMP
 Group:		System/Libraries
 Requires:	%{libname} >= %{version}-%{release}
 Obsoletes:	%mklibname %{name}xx 3
 
-%description -n %{libname_gmpxx}
+%description -n	%{libname_gmpxx}
 C++ support for GMP.
 
-%package -n %{develname_gmpxx}
+%package -n	%{develname_gmpxx}
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
 Requires:	%{develname} >= %{version}-%{release}
@@ -89,34 +89,33 @@ Requires:	%{libname_gmpxx} >= %{version}-%{release}
 Provides:	gmpxx-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}xx 4 -d} < 4.2.4
 
-%description -n %{develname_gmpxx}
+%description -n	%{develname_gmpxx}
 C++ Development tools for the GMP.
 
-%package -n %{libname_mp}
+%package -n	%{libname_mp}
 Summary:	Berkley MP compatibility library for GMP
 Group:		System/Libraries
 
-%description -n %{libname_mp}
+%description -n	%{libname_mp}
 Berkley MP compatibility library for GMP.
 
-%package -n %{develname_mp}
+%package -n	%{develname_mp}
 Summary:	Development tools for Berkley MP compatibility library for GMP
 Group:		Development/C
 Requires:	%{libname_mp} >= %{version}-%{release}
 Provides:	mp-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}mp 3 -d} < 4.2.4
 
-%description -n %{develname_mp}
+%description -n	%{develname_mp}
 Development tools for Berkley MP compatibility library for GMP.
 
 %prep
 %setup -q
 
 %build
-%configure2_5x \
-	 --enable-cxx \
-	 --enable-mpbsd \
-	 --enable-fft
+%configure2_5x	--enable-cxx \
+		--enable-mpbsd \
+		--enable-fft
 %make
 
 %check
@@ -124,8 +123,6 @@ Development tools for Berkley MP compatibility library for GMP.
 make check
 
 %install
-%{__rm} -rf %{buildroot}
-
 %makeinstall_std
 
 # cleanup
