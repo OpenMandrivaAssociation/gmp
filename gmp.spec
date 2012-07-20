@@ -12,7 +12,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	5.0.5
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		System/Libraries
 URL:		http://gmplib.org/
@@ -40,7 +40,6 @@ GNU MP is fast for several reasons:
 %package -n %{libname}
 Summary:	A GNU arbitrary precision library
 Group:		System/Libraries
-Provides:	lib%{name} = %{version}-%{release}
 
 %description -n	%{libname}
 The gmp package contains GNU MP, a library for arbitrary precision
@@ -62,7 +61,6 @@ Group:		Development/C
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
 Requires:	%{libname} >= %{version}-%{release}
-Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name} 3 -d} < 4.2.4
 
@@ -78,7 +76,6 @@ install the gmp package.
 Summary:	C++ support for GMP
 Group:		System/Libraries
 Requires:	%{libname} >= %{version}-%{release}
-Provides:	libgmpxx = %{version}-%{release}
 Obsoletes:	%mklibname %{name}xx 3
 
 %description -n %{libname_gmpxx}
@@ -89,7 +86,6 @@ Summary:	C++ Development tools for the GMP
 Group:		Development/C++
 Requires:	%{develname} >= %{version}-%{release}
 Requires:	%{libname_gmpxx} >= %{version}-%{release}
-Provides:	lib%{name}xx-devel = %{version}-%{release}
 Provides:	gmpxx-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}xx 4 -d} < 4.2.4
 
@@ -99,7 +95,6 @@ C++ Development tools for the GMP.
 %package -n %{libname_mp}
 Summary:	Berkley MP compatibility library for GMP
 Group:		System/Libraries
-Provides:	libgmp_mp = %{version}-%{release}
 
 %description -n %{libname_mp}
 Berkley MP compatibility library for GMP.
@@ -108,7 +103,6 @@ Berkley MP compatibility library for GMP.
 Summary:	Development tools for Berkley MP compatibility library for GMP
 Group:		Development/C
 Requires:	%{libname_mp} >= %{version}-%{release}
-Provides:	lib%{name}mp-devel = %{version}-%{release}
 Provides:	mp-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name}mp 3 -d} < 4.2.4
 
