@@ -12,12 +12,12 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	5.0.5
-Release:	2
+Release:	3
 License:	GPLv3
 Group:		System/Libraries
 URL:		http://gmplib.org/
-Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{version}/%{name}-%{version}.tar.xz
-Source1:	ftp://ftp.gnu.org/pub/gnu/%{name}-%{version}/%{name}-%{version}.tar.xz.sig
+Source0:	ftp://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.xz
+Source1:	ftp://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.xz.sig
 Patch0:		gmp-5.0.5-x32-build-fix.patch
 Patch1:		gmp-5.0.5-remove-deprecated-ansi2knr-support.patch
 BuildRequires:	bison
