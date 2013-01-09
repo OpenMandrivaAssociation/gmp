@@ -12,7 +12,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	5.0.5
-Release:	3
+Release:	4
 License:	GPLv3
 Group:		System/Libraries
 URL:		http://gmplib.org/
