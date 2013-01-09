@@ -66,6 +66,7 @@ Requires(post):	rpm-helper
 Requires(preun):rpm-helper
 Requires:	%{libname} >= %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+Provides:	lib%{name}-devel = %{version}-%{release}
 Obsoletes:	%{mklibname %{name} 3 -d} < 4.2.4
 
 %description -n	%{develname}
