@@ -117,7 +117,7 @@ Development tools for Berkley MP compatibility library for GMP.
 %setup -q
 %patch0 -p1 -b .x32~
 %patch1 -p1 -b .no_ansi2knr~
-autoreconf -f
+autoreconf -fi
 
 %build
 %configure2_5x	--enable-cxx \
