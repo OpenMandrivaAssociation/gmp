@@ -132,6 +132,8 @@ make check
 %install
 %makeinstall_std
 
+%multiarch_includes %{buildroot}%{_includedir}/gmp.h
+
 %files -n %{libname}
 %doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
@@ -141,6 +143,7 @@ make check
 %{_libdir}/libgmp.so
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
+%multiarch %{multiarch_includedir}/gmp.h
 %{_infodir}/gmp.info*
 
 %files -n %{libname_gmpxx}
