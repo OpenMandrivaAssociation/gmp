@@ -20,6 +20,7 @@ Source0:	ftp://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.xz
 Source1:	ftp://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.xz.sig
 Patch0:		gmp-5.0.5-x32-build-fix.patch
 Patch1:		gmp-5.0.5-remove-deprecated-ansi2knr-support.patch
+Patch2:		gmp-5.0.5-automake-1.13.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
@@ -116,8 +117,7 @@ Development tools for Berkley MP compatibility library for GMP.
 
 %prep
 %setup -q
-%patch0 -p1 -b .x32~
-%patch1 -p1 -b .no_ansi2knr~
+%apply_patches
 autoreconf -fi
 
 %build
@@ -144,8 +144,9 @@ make check
 %{_libdir}/libgmp.so
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
-%multiarch %{multiarch_includedir}/gmp.h
 %{_infodir}/gmp.info*
+%multiarch %{multiarch_includedir}/gmp.h
+
 
 %files -n %{libname_gmpxx}
 %{_libdir}/libgmpxx.so.%{major_xx}*
