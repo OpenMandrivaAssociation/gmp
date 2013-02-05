@@ -1,0 +1,33 @@
+--- gmp-5.1.0/configure.in.0000~	2012-12-18 20:05:09.000000000 +0100
++++ gmp-5.1.0/configure.in	2013-02-05 22:13:04.105912605 +0100
+@@ -1686,6 +1686,21 @@ case $host in
+ 	    GMP_NONSTD_ABI_64=DOS64
+ 	    ;;
+ 	esac
++
++        # X32 support
++        case x"$path_64" in
++          xx86_64*)
++            abilist="x32 64 32"
++            path_x32="$path_64"
++            limb_x32=longlong
++            cclist_x32="gcc"
++            gcc_x32_cflags="-O2 -mx32"
++            any_x32_testlist="sizeof-long-4"
++            CALLING_CONVENTIONS_OBJS_x32='amd64call.lo amd64check$U.lo'
++            SPEED_CYCLECOUNTER_OBJ_x32=x86_64.lo
++            cyclecounter_size_x32=2
++	    ;;
++	esac
+ 	;;
+     esac
+     ;;
+@@ -3427,7 +3442,7 @@ if test "$gmp_asm_syntax_testing" != no;
+ 	      GMP_INCLUDE_MPN(x86/darwin.m4) ;;
+ 	  esac
+           ;;
+-        64)
++        64|x32)
+           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
+           AC_DEFINE(HAVE_HOST_CPU_FAMILY_x86_64)
+ 	  case $host in

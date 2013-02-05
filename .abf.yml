@@ -1,3 +1,6 @@
-sources:
+removed_sources:
   gmp-5.0.5.tar.xz: 4e006dd5e473f21d414b88997630122662ddc2be
+sources:
   gmp-5.0.5.tar.xz.sig: e57c645521d1109314263dbeacba073d9c729819
+  gmp-5.1.0.tar.xz: 5119848b69259de9384994ff7d4fbc2f54074895
+  gmp-5.1.0.tar.xz.sig: caf7021d8c02157d7b8968070dc53e8a0c9369f6

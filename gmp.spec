@@ -6,20 +6,17 @@
 %define develname %mklibname %{name} -d
 %define libname_gmpxx %mklibname %{name}xx %{major_xx}
 %define develname_gmpxx %mklibname %{name}xx -d
-%define	libname_mp %mklibname %{name}mp %{major_mp} 
-%define	develname_mp %mklibname %{name}mp -d
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	5.0.5
-Release:	4
+Version:	5.1.0
+Release:	1
 License:	GPLv3
 Group:		System/Libraries
 URL:		http://gmplib.org/
-Source0:	ftp://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.xz
-Source1:	ftp://ftp.gnu.org/pub/gnu/%{name}/%{name}-%{version}.tar.xz.sig
-Patch0:		gmp-5.0.5-x32-build-fix.patch
-Patch1:		gmp-5.0.5-remove-deprecated-ansi2knr-support.patch
+Source0:	ftp://ftp.gmplib.org/pub/%{name}-%version/%{name}-%{version}.tar.xz
+Source1:	ftp://ftp.gmplib.org/pub/%{name}-%version/%{name}-%{version}.tar.xz.sig
+Patch0:		gmp-5.1.0-x32-build-fix.patch
 Patch2:		gmp-5.0.5-automake-1.13.patch
 BuildRequires:	bison
 BuildRequires:	flex
@@ -98,23 +95,6 @@ Obsoletes:	%{mklibname %{name}xx 4 -d} < 4.2.4
 %description -n	%{develname_gmpxx}
 C++ Development tools for the GMP.
 
-%package -n	%{libname_mp}
-Summary:	Berkley MP compatibility library for GMP
-Group:		System/Libraries
-
-%description -n	%{libname_mp}
-Berkley MP compatibility library for GMP.
-
-%package -n	%{develname_mp}
-Summary:	Development tools for Berkley MP compatibility library for GMP
-Group:		Development/C
-Requires:	%{libname_mp} >= %{version}-%{release}
-Provides:	mp-devel = %{version}-%{release}
-Obsoletes:	%{mklibname %{name}mp 3 -d} < 4.2.4
-
-%description -n	%{develname_mp}
-Development tools for Berkley MP compatibility library for GMP.
-
 %prep
 %setup -q
 %apply_patches
@@ -145,7 +125,7 @@ make check
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
 %{_infodir}/gmp.info*
-%multiarch %{multiarch_includedir}/gmp.h
+%{multiarch_includedir}/gmp.h
 
 
 %files -n %{libname_gmpxx}
@@ -155,11 +135,3 @@ make check
 %{_libdir}/libgmpxx.so
 %{_libdir}/libgmpxx.a
 %{_includedir}/gmpxx.h
-
-%files -n %{libname_mp}
-%{_libdir}/libmp.so.%{major_mp}*
-
-%files -n %{develname_mp}
-%{_includedir}/mp.h
-%{_libdir}/libmp.so
-%{_libdir}/libmp.a
