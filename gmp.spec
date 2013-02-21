@@ -105,9 +105,11 @@ autoreconf -fi
 		--enable-fft
 %make
 
+%if ! %cross_compiling
 %check
 # All tests must pass
 make check
+%endif
 
 %install
 %makeinstall_std
