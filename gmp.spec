@@ -10,7 +10,7 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	5.1.1
+Version:	5.1.2
 Release:	1
 License:	GPLv3
 Group:		System/Libraries
