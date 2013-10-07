@@ -10,7 +10,7 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	5.1.2
+Version:	5.1.3
 Release:	1
 License:	GPLv3
 Group:		System/Libraries
@@ -83,6 +83,7 @@ autoreconf -fi
 %build
 %configure2_5x \
 	--enable-cxx \
+	--enable-static \
 	--enable-mpbsd \
 	--enable-fft
 %make
