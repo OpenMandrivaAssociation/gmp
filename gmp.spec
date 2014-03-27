@@ -7,22 +7,26 @@
 %define devname %mklibname %{name} -d
 %define libgmpxx %mklibname %{name}xx %{major_xx}
 %define devgmpxx %mklibname %{name}xx -d
+# Turn 6.0.0a etc. into 6.0.0
+%define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	5.1.3
-Release:	5
+Version:	6.0.0a
+Release:	1
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
-Source0:	ftp://ftp.gmplib.org/pub/%{name}-%version/%{name}-%{version}.tar.xz
-Source1:	ftp://ftp.gmplib.org/pub/%{name}-%version/%{name}-%{version}.tar.xz.sig
+Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz
+Source1:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz.sig
 Patch0:		gmp-5.1.0-x32-build-fix.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(ncurses)
+# For unpacking the tarball
+BuildRequires:	lzip
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
@@ -76,7 +80,7 @@ Provides:	gmpxx-devel = %{version}-%{release}
 C++ Development tools for the GMP.
 
 %prep
-%setup -q
+%setup -qn %{name}-%{majorversion}
 %apply_patches
 autoreconf -fi
 
