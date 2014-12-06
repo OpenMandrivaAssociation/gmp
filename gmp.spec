@@ -10,6 +10,8 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
+%bcond_without	uclibc
+
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.0.0a
@@ -27,6 +29,9 @@ BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(ncurses)
 # For unpacking the tarball
 BuildRequires:	lzip
+%if %{with uclibc}
+BuildRequires:	uClibc-devel
+%endif
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
@@ -47,6 +52,13 @@ Summary:	A GNU arbitrary precision library
 Group:		System/Libraries
 
 %description -n	%{libname}
+This package contains a shared library for %{name}.
+
+%package -n	uclibc-%{libname}
+Summary:	A GNU arbitrary precision library (uClibc build)
+Group:		System/Libraries
+
+%description -n	uclibc-%{libname}
 This package contains a shared library for %{name}.
 
 %package -n	%{devname}
@@ -85,21 +97,43 @@ C++ Development tools for the GMP.
 autoreconf -fi
 
 %build
-%configure2_5x \
+CONFIGURE_TOP=$PWD
+%define	noconftarget 1
+%if %{with uclibc}
+mkdir -p uclibc
+pushd uclibc
+%uclibc_configure \
+	--disable-cxx \
+	--enable-static \
+	--enable-fft
+%make
+popd
+%endif
+
+mkdir -p glibc
+pushd glibc
+%configure \
 	--enable-cxx \
 	--enable-static \
 	--enable-mpbsd \
 	--enable-fft
 %make
+popd
 
 %if ! %cross_compiling
 %check
 # All tests must pass
-make check
+make -C glibc check
 %endif
 
 %install
-%makeinstall_std
+%if %{with uclibc}
+%makeinstall_std -C uclibc
+
+%multiarch_includes %{buildroot}%{uclibc_root}%{_includedir}/gmp.h
+
+%endif
+%makeinstall_std -C glibc
 
 %multiarch_includes %{buildroot}%{_includedir}/gmp.h
 
@@ -107,13 +141,24 @@ make check
 %doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
 
+%if %{with uclibc}
+%files -n uclibc-%{libname}
+%{uclibc_root}%{_libdir}/libgmp.so.%{major}*
+%endif
+
 %files -n %{devname}
 %doc doc demos
 %{_libdir}/libgmp.so
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
-%{_infodir}/gmp.info*
 %{multiarch_includedir}/gmp.h
+%if %{with uclibc}
+%{uclibc_root}%{_libdir}/libgmp.so
+%{uclibc_root}%{_libdir}/libgmp.a
+%{uclibc_root}%{_includedir}/gmp.h
+%{uclibc_root}%{multiarch_includedir}/gmp.h
+%endif
+%{_infodir}/gmp.info*
 
 %files -n %{libgmpxx}
 %{_libdir}/libgmpxx.so.%{major_xx}*
