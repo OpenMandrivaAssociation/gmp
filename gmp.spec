@@ -22,7 +22,8 @@ Url:		http://gmplib.org/
 Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz
 Source1:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz.sig
 Patch0:		gmp-5.1.0-x32-build-fix.patch
-
+Patch1:		gmp-01-arm-asm-conditional-on-no-thumb-1.patch
+Patch2:		gmp-02-arm-asm-conditional-on-no-thumb-2.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
@@ -100,6 +101,8 @@ autoreconf -fi
 CONFIGURE_TOP=$PWD
 %define	noconftarget 1
 %if %{with uclibc}
+# workaround segfault...
+%global uclibc_cflags %{uclibc_cflags} -O2
 mkdir -p uclibc
 pushd uclibc
 %uclibc_configure \
