@@ -65,11 +65,11 @@ This package contains a shared library for %{name}.
 %package -n	%{devname}
 Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
-Requires:	%{libname} >= %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
 %if %{with uclibc}
-Requires:	uclibc-%{libname} >= %{EVRD}
+Requires:	uclibc-%{libname} = %{EVRD}
 %endif
-Provides:	%{name}-devel = %{version}-%{release}
+Provides:	%{name}-devel = %{EVRD}
 
 %description -n	%{devname}
 The static libraries, header files and documentation for using the GNU MP
@@ -89,8 +89,8 @@ C++ support for GMP.
 %package -n	%{devgmpxx}
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
-Requires:	%{libgmpxx} >= %{version}-%{release}
-Provides:	gmpxx-devel = %{version}-%{release}
+Requires:	%{libgmpxx} >= %{EVRD}
+Provides:	gmpxx-devel = %{EVRD}
 
 %description -n	%{devgmpxx}
 C++ Development tools for the GMP.
