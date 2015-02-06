@@ -15,7 +15,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.0.0a
-Release:	4
+Release:	5
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -66,6 +66,9 @@ This package contains a shared library for %{name}.
 Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
 Requires:	%{libname} >= %{version}-%{release}
+%if %{with uclibc}
+Requires:	uclibc-%{libname} >= %{EVRD}
+%endif
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n	%{devname}
