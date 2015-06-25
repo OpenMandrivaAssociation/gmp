@@ -15,12 +15,12 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.0.0a
-Release:	5
+Release:	6
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
 Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz
-Source1:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz.sig
+Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
 Patch1:		gmp-01-arm-asm-conditional-on-no-thumb-1.patch
 Patch2:		gmp-02-arm-asm-conditional-on-no-thumb-2.patch
@@ -32,6 +32,8 @@ BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	lzip
 %if %{with uclibc}
 BuildRequires:	uClibc-devel
+BuildRequires:	uclibc-ncurses-devel
+BuildRequires:	uclibc-readline-devel
 %endif
 
 %description
@@ -55,6 +57,7 @@ Group:		System/Libraries
 %description -n	%{libname}
 This package contains a shared library for %{name}.
 
+%if %{with uclibc}
 %package -n	uclibc-%{libname}
 Summary:	A GNU arbitrary precision library (uClibc build)
 Group:		System/Libraries
@@ -62,13 +65,27 @@ Group:		System/Libraries
 %description -n	uclibc-%{libname}
 This package contains a shared library for %{name}.
 
+%package -n	uclibc-%{devname}
+Summary:	Development tools for the GNU MP arbitrary precision library
+Group:		Development/C
+Requires:	uclibc-%{libname} = %{EVRD}
+Requires:	%{devname} = %{EVRD}
+Provides:	uclibc-%{name}-devel = %{EVRD}
+Conflicts:	%{devname} < 6.0.0a-6
+
+%description -n	uclibc-%{devname}
+The static libraries, header files and documentation for using the GNU MP
+arbitrary precision library in applications.
+
+If you want to develop applications which will use the GNU MP library,
+you'll need to install the gmp-devel package.  You'll also need to
+install the gmp package.
+%endif
+
 %package -n	%{devname}
 Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
-%if %{with uclibc}
-Requires:	uclibc-%{libname} = %{EVRD}
-%endif
 Provides:	%{name}-devel = %{EVRD}
 
 %description -n	%{devname}
@@ -150,6 +167,12 @@ make -C glibc check
 %if %{with uclibc}
 %files -n uclibc-%{libname}
 %{uclibc_root}%{_libdir}/libgmp.so.%{major}*
+
+%files -n uclibc-%{devname}
+%{uclibc_root}%{_libdir}/libgmp.so
+%{uclibc_root}%{_libdir}/libgmp.a
+%{uclibc_root}%{_includedir}/gmp.h
+%{uclibc_root}%{multiarch_includedir}/gmp.h
 %endif
 
 %files -n %{devname}
@@ -158,12 +181,6 @@ make -C glibc check
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
 %{multiarch_includedir}/gmp.h
-%if %{with uclibc}
-%{uclibc_root}%{_libdir}/libgmp.so
-%{uclibc_root}%{_libdir}/libgmp.a
-%{uclibc_root}%{_includedir}/gmp.h
-%{uclibc_root}%{multiarch_includedir}/gmp.h
-%endif
 %{_infodir}/gmp.info*
 
 %files -n %{libgmpxx}
