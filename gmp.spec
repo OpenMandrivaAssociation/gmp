@@ -10,12 +10,12 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
-%bcond_without	uclibc
+%bcond_with	uclibc
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.0.0a
-Release:	7
+Release:	8
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
