@@ -10,20 +10,21 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
+# Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
+%global optflags -Os -g -pipe -fstack-protector
+
 %bcond_with	uclibc
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	6.0.0a
-Release:	8
+Version:	6.1.0
+Release:	1
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
 Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz
 Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
-Patch1:		gmp-01-arm-asm-conditional-on-no-thumb-1.patch
-Patch2:		gmp-02-arm-asm-conditional-on-no-thumb-2.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
