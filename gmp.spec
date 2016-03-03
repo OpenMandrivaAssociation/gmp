@@ -103,7 +103,7 @@ make check
 %endif
 
 %install
-%makeinstall_std -C glibc
+%makeinstall_std
 
 %multiarch_includes %{buildroot}%{_includedir}/gmp.h
 
