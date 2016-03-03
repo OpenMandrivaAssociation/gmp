@@ -13,8 +13,6 @@
 # Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
 %global optflags -Os -g -pipe -fstack-protector
 
-%bcond_with	uclibc
-
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.0
@@ -31,11 +29,6 @@ BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(ncurses)
 # For unpacking the tarball
 BuildRequires:	lzip
-%if %{with uclibc}
-BuildRequires:	uClibc-devel
-BuildRequires:	uclibc-ncurses-devel
-BuildRequires:	uclibc-readline-devel
-%endif
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
@@ -57,31 +50,6 @@ Group:		System/Libraries
 
 %description -n	%{libname}
 This package contains a shared library for %{name}.
-
-%if %{with uclibc}
-%package -n	uclibc-%{libname}
-Summary:	A GNU arbitrary precision library (uClibc build)
-Group:		System/Libraries
-
-%description -n	uclibc-%{libname}
-This package contains a shared library for %{name}.
-
-%package -n	uclibc-%{devname}
-Summary:	Development tools for the GNU MP arbitrary precision library
-Group:		Development/C
-Requires:	uclibc-%{libname} = %{EVRD}
-Requires:	%{devname} = %{EVRD}
-Provides:	uclibc-%{name}-devel = %{EVRD}
-Conflicts:	%{devname} < 6.0.0a-6
-
-%description -n	uclibc-%{devname}
-The static libraries, header files and documentation for using the GNU MP
-arbitrary precision library in applications.
-
-If you want to develop applications which will use the GNU MP library,
-you'll need to install the gmp-devel package.  You'll also need to
-install the gmp package.
-%endif
 
 %package -n	%{devname}
 Summary:	Development tools for the GNU MP arbitrary precision library
@@ -119,44 +87,24 @@ C++ Development tools for the GMP.
 autoreconf -fi
 
 %build
-CONFIGURE_TOP=$PWD
-%define	noconftarget 1
-%if %{with uclibc}
-# workaround segfault...
-%global uclibc_cflags %{uclibc_cflags} -O2
-mkdir -p uclibc
-pushd uclibc
-%uclibc_configure \
-	--disable-cxx \
-	--enable-static \
-	--enable-fft
-%make
-popd
-%endif
+%global optflags %{optflags} -Os
 
-mkdir -p glibc
-pushd glibc
+%define	noconftarget 1
+
 %configure \
 	--enable-cxx \
 	--enable-static \
 	--enable-mpbsd \
 	--enable-fft
 %make
-popd
 
 %if ! %cross_compiling
 %check
 # All tests must pass
-make -C glibc check
+make check
 %endif
 
 %install
-%if %{with uclibc}
-%makeinstall_std -C uclibc
-
-%multiarch_includes %{buildroot}%{uclibc_root}%{_includedir}/gmp.h
-
-%endif
 %makeinstall_std -C glibc
 
 %multiarch_includes %{buildroot}%{_includedir}/gmp.h
@@ -164,17 +112,6 @@ make -C glibc check
 %files -n %{libname}
 %doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
-
-%if %{with uclibc}
-%files -n uclibc-%{libname}
-%{uclibc_root}%{_libdir}/libgmp.so.%{major}*
-
-%files -n uclibc-%{devname}
-%{uclibc_root}%{_libdir}/libgmp.so
-%{uclibc_root}%{_libdir}/libgmp.a
-%{uclibc_root}%{_includedir}/gmp.h
-%{uclibc_root}%{multiarch_includedir}/gmp.h
-%endif
 
 %files -n %{devname}
 %doc doc demos
