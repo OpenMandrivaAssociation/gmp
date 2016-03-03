@@ -87,8 +87,6 @@ C++ Development tools for the GMP.
 autoreconf -fi
 
 %build
-%global optflags %{optflags} -Os
-
 %define	noconftarget 1
 
 %configure \
