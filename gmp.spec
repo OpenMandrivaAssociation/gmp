@@ -15,20 +15,18 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	6.1.0
-Release:	2
+Version:	6.1.1
+Release:	1
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
-Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.lz
+Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.xz
 Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(ncurses)
-# For unpacking the tarball
-BuildRequires:	lzip
 
 %description
 The gmp package contains GNU MP, a library for arbitrary precision
