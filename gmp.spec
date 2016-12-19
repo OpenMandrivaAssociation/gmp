@@ -15,7 +15,7 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	6.1.1
+Version:	6.1.2
 Release:	1
 License:	GPLv3
 Group:		System/Libraries
@@ -106,11 +106,11 @@ make check
 %multiarch_includes %{buildroot}%{_includedir}/gmp.h
 
 %files -n %{libname}
-%doc NEWS README
 %{_libdir}/libgmp.so.%{major}*
 
 %files -n %{devname}
 %doc doc demos
+%doc NEWS README
 %{_libdir}/libgmp.so
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
