@@ -1,5 +1,5 @@
 # XXX this should really be the default behaviour of rpm..
-%define	__noautoreqfiles	%{_docdir}
+%define	__noautoreqfiles %{_docdir}
 
 %define major 10
 %define major_xx 4
@@ -10,13 +10,13 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
-# Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
-%global optflags -Os -g -pipe -fstack-protector
+# (tpg) optimize it a bit
+%global optflags -O3
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
