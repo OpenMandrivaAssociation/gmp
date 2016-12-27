@@ -11,7 +11,7 @@
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
 # (tpg) optimize it a bit
-%global optflags -O3
+%global optflags %optflags -O3
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
