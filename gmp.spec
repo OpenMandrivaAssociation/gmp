@@ -1,5 +1,5 @@
 # XXX this should really be the default behaviour of rpm..
-%define	__noautoreqfiles	%{_docdir}
+%define	__noautoreqfiles %{_docdir}
 
 %define major 10
 %define major_xx 4
@@ -11,12 +11,13 @@
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
 # Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
-%global optflags -Os -g -pipe -fstack-protector
+# (tpg) seems like tests still segfaults 2016-12-27
+%global optflags -O3 -g -pipe -fstack-protector
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
