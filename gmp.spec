@@ -10,14 +10,12 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
-# Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
-# (tpg) seems like tests still segfaults 2016-12-27
-%global optflags -O3 -g -pipe -fstack-protector
+%global optflags %{optflags} -Ofast
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	3
+Release:	4
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
