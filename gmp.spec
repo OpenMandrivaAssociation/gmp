@@ -13,7 +13,8 @@
 # Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
 # (tpg) seems like tests still segfaults 2016-12-27
 # (tpg) still valid 2017-12-21
-%global optflags -O3 -g -pipe -fstack-protector -flto
+%global optflags %{optflags} -O3
+%define _disable_lto 1
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
