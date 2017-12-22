@@ -12,12 +12,13 @@
 
 # Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
 # (tpg) seems like tests still segfaults 2016-12-27
-%global optflags -O3 -g -pipe -fstack-protector
+# (tpg) still valid 2017-12-21
+%global optflags -O3 -gdwarf-4 -Wstrict-aliasing=2 -pipe -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4  -fPIC
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	2
+Release:	4
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -93,6 +94,12 @@ autoreconf -fi
 	--enable-static \
 	--enable-mpbsd \
 	--enable-fft
+
+sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
+    -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
+    -e 's|-lstdc++ -lm|-lstdc++|' \
+    -i libtool
+
 %make
 
 %if ! %cross_compiling
@@ -104,7 +111,9 @@ make check
 %install
 %makeinstall_std
 
+%if %{mdvver} <= 3000000
 %multiarch_includes %{buildroot}%{_includedir}/gmp.h
+%endif
 
 %files -n %{libname}
 %{_libdir}/libgmp.so.%{major}*
@@ -115,7 +124,9 @@ make check
 %{_libdir}/libgmp.so
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
+%if %{mdvver} <= 3000000
 %{multiarch_includedir}/gmp.h
+%endif
 %{_infodir}/gmp.info*
 
 %files -n %{libgmpxx}
