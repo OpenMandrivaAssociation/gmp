@@ -111,6 +111,10 @@ make check
 %install
 %makeinstall_std
 
+%if %{mdvver} <= 3000000
+%multiarch_includes %{buildroot}%{_includedir}/gmp.h
+%endif
+
 %files -n %{libname}
 %{_libdir}/libgmp.so.%{major}*
 
@@ -120,6 +124,9 @@ make check
 %{_libdir}/libgmp.so
 %{_libdir}/libgmp.a
 %{_includedir}/gmp.h
+%if %{mdvver} <= 3000000
+%{multiarch_includedir}/gmp.h
+%endif
 %{_infodir}/gmp.info*
 
 %files -n %{libgmpxx}
