@@ -13,7 +13,8 @@
 # Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
 # (tpg) seems like tests still segfaults 2016-12-27
 # (tpg) still valid 2017-12-21
-%global optflags %{optflags} -O3 -gdwarf-4 -Wstrict-aliasing=2 -pipe -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4  -fPIC
+# (tpg) do not ad %optlfags here as gmp will crash 2018-07-31
+%global optflags -O3 -gdwarf-4 -Wstrict-aliasing=2 -pipe -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4  -fPIC
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
