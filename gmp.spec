@@ -19,7 +19,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	5
+Release:	6
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -77,6 +77,7 @@ C++ support for GMP.
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
 Requires:	%{libgmpxx} >= %{EVRD}
+Requires:	%{devname} = %{EVRD}
 Provides:	gmpxx-devel = %{EVRD}
 
 %description -n	%{devgmpxx}
