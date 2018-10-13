@@ -88,7 +88,7 @@ C++ Development tools for the GMP.
 autoreconf -fi
 
 %build
-autoreconf -ifv
+%define noconftarget 1
 
 if as --help | grep -q execstack; then
   # the object files do not require an executable stack
