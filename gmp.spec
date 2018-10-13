@@ -10,22 +10,17 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
-# Overriding default flags because of https://llvm.org/bugs/show_bug.cgi?id=26711
-# (tpg) seems like tests still segfaults 2016-12-27
-# (tpg) still valid 2017-12-21
-# (tpg) do not ad %optlfags here as gmp will crash 2018-07-31
-%global optflags -O3 -gdwarf-4 -Wstrict-aliasing=2 -pipe -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4  -fPIC
-
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	7
+Release:	8
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
 Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.xz
 Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
+Patch1:		gmp-6.1.2-execstackfix.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
@@ -89,11 +84,6 @@ autoreconf -fi
 
 %build
 %define noconftarget 1
-
-if as --help | grep -q execstack; then
-  # the object files do not require an executable stack
-  export CCAS="%{__cc} -c -Wa,--noexecstack"
-fi
 
 %configure \
 	--enable-cxx \
