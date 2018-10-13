@@ -1,5 +1,5 @@
 # XXX this should really be the default behaviour of rpm..
-%define	__noautoreqfiles %{_docdir}
+%define __requires_exclude_from %{_docdir}
 
 %define major 10
 %define major_xx 4
@@ -45,20 +45,20 @@ GNU MP is fast for several reasons:
    - it generally emphasizes speed over simplicity/elegance in its
      operations
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	A GNU arbitrary precision library
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 This package contains a shared library for %{name}.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Development tools for the GNU MP arbitrary precision library
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 
-%description -n	%{devname}
+%description -n %{devname}
 The static libraries, header files and documentation for using the GNU MP
 arbitrary precision library in applications.
 
@@ -66,30 +66,34 @@ If you want to develop applications which will use the GNU MP library,
 you'll need to install the gmp-devel package.  You'll also need to
 install the gmp package.
 
-%package -n	%{libgmpxx}
+%package -n %{libgmpxx}
 Summary:	C++ support for GMP
 Group:		System/Libraries
 
-%description -n	%{libgmpxx}
+%description -n %{libgmpxx}
 C++ support for GMP.
 
-%package -n	%{devgmpxx}
+%package -n %{devgmpxx}
 Summary:	C++ Development tools for the GMP
 Group:		Development/C++
 Requires:	%{libgmpxx} >= %{EVRD}
 Requires:	%{devname} = %{EVRD}
 Provides:	gmpxx-devel = %{EVRD}
 
-%description -n	%{devgmpxx}
+%description -n %{devgmpxx}
 C++ Development tools for the GMP.
 
 %prep
-%setup -qn %{name}-%{majorversion}
-%apply_patches
+%autosetup -n %{name}-%{majorversion} -p1
 autoreconf -fi
 
 %build
-%define	noconftarget 1
+autoreconf -ifv
+
+if as --help | grep -q execstack; then
+  # the object files do not require an executable stack
+  export CCAS="%{__cc} -c -Wa,--noexecstack"
+fi
 
 %configure \
 	--enable-cxx \
@@ -101,8 +105,9 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     -e 's|-lstdc++ -lm|-lstdc++|' \
     -i libtool
+export LD_LIBRARY_PATH="$(pwd)/.libs"
 
-%make
+%make_build
 
 %if ! %cross_compiling
 %check
@@ -111,7 +116,7 @@ make check
 %endif
 
 %install
-%makeinstall_std
+%make_install
 
 %if %{mdvver} <= 3000000
 %multiarch_includes %{buildroot}%{_includedir}/gmp.h
