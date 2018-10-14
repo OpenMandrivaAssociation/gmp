@@ -10,6 +10,8 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
+%global optflags %{optflags} -fexceptions
+
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
@@ -95,12 +97,13 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     -e 's|-lstdc++ -lm|-lstdc++|' \
     -i libtool
-export LD_LIBRARY_PATH="$(pwd)/.libs"
+export LD_LIBRARY_PATH=$(pwd)/.libs
 
 %make_build
 
 %if ! %cross_compiling
 %check
+export LD_LIBRARY_PATH=$(pwd)/.libs
 # All tests must pass
 make check
 %endif
