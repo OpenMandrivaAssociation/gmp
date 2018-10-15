@@ -10,7 +10,7 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
-%global optflags %{optflags} -fexceptions
+%global optflags %{optflags} -Ofast -fexceptions
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
