@@ -11,6 +11,7 @@
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
 %global optflags %{optflags} -Ofast -fexceptions
+%define _disable_lto 1
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
