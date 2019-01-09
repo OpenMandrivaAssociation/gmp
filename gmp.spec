@@ -10,13 +10,13 @@
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
-%global optflags %{optflags} -Ofast -fexceptions
+%global optflags %{optflags} -O3 -fexceptions
 %define _disable_lto 1
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	9
+Release:	10
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
