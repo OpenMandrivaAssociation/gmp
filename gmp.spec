@@ -11,12 +11,11 @@
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
 
 %global optflags %{optflags} -O3 -fexceptions
-%define _disable_lto 1
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	10
+Release:	11
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -24,6 +23,7 @@ Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar
 Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
 Patch1:		gmp-6.1.2-execstackfix.patch
+Patch2:		floating-point-format-no-lto.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
