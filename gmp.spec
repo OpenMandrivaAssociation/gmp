@@ -94,6 +94,7 @@ autoreconf -fi
 	--enable-mpbsd \
 	--enable-fft
 
+cat config.log
 sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     -e 's|-lstdc++ -lm|-lstdc++|' \
