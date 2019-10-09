@@ -9,7 +9,7 @@
 %define devgmpxx %mklibname %{name}xx -d
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
-
+%define _disable_lto 1
 %global optflags %{optflags} -O3 -fexceptions
 
 Summary:	A GNU arbitrary precision library
