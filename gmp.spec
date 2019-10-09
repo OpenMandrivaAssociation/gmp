@@ -9,13 +9,15 @@
 %define devgmpxx %mklibname %{name}xx -d
 # Turn 6.0.0a etc. into 6.0.0
 %define majorversion %(echo %{version} | sed -e 's/[a-z]//')
+
+# (tpg) configure script is broken when LTO is used
+# so disable it and push LTO at make_build stage
 %define _disable_lto 1
-%global optflags %{optflags} -O3 -fexceptions
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.1.2
-Release:	11
+Release:	12
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -23,7 +25,6 @@ Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar
 Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
 Patch1:		gmp-6.1.2-execstackfix.patch
-Patch2:		floating-point-format-no-lto.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	readline-devel
@@ -91,17 +92,16 @@ autoreconf -fi
 %configure \
 	--enable-cxx \
 	--enable-static \
-	--enable-mpbsd \
 	--enable-fft
 
-cat config.log
 sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
     -e 's|-lstdc++ -lm|-lstdc++|' \
     -i libtool
 export LD_LIBRARY_PATH=$(pwd)/.libs
 
-%make_build
+# (tpg) configure script is sensitive on LTO so disable it and re-enable on make stage
+%make_build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{ldflags} -lto"
 
 %if ! %cross_compiling
 %check
