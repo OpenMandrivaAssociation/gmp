@@ -101,7 +101,7 @@ sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
 export LD_LIBRARY_PATH=$(pwd)/.libs
 
 # (tpg) configure script is sensitive on LTO so disable it and re-enable on make stage
-%make_build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{ldflags} -lto"
+%make_build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{ldflags} -flto"
 
 %if ! %cross_compiling
 %check
