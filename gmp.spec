@@ -135,6 +135,7 @@ cat tests/*/test-suite.log
 %{multiarch_includedir}/gmp.h
 %endif
 %{_infodir}/gmp.info*
+%{_libdir}/pkgconfig/gmp.pc
 
 %files -n %{libgmpxx}
 %{_libdir}/libgmpxx.so.%{major_xx}*
@@ -143,3 +144,4 @@ cat tests/*/test-suite.log
 %{_libdir}/libgmpxx.so
 %{_libdir}/libgmpxx.a
 %{_includedir}/gmpxx.h
+%{_libdir}/pkgconfig/gmpxx.pc
