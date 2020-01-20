@@ -18,8 +18,8 @@
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
-Version:	6.1.2
-Release:	12
+Version:	6.2.0
+Release:	1
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
