@@ -26,12 +26,12 @@
 # so disable it and push LTO at make_build stage
 %define _disable_lto 1
 
-%global optflags %{optflags} -O3
+%global optflags %{optflags} -O3 --unwindlib=compiler-rt
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.2.0
-Release:	2
+Release:	3
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
