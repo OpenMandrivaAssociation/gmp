@@ -26,16 +26,7 @@
 # so disable it and push LTO at make_build stage
 %define _disable_lto 1
 
-%ifarch armv7hnl
-# (tpg) 2020-01-22
-#BUILDSTDERR: armv7hnl-openmandriva-linux-gnueabihf-ld: error: cannot preempt symbol: __gmp_binvert_limb_table
-#BUILDSTDERR: >>> defined in /builddir/build/BUILD/gmp-6.2.0/.libs/libgmp.so
-#BUILDSTDERR: >>> referenced by t-constants.c:241
-#BUILDSTDERR: >>>               t-constants.o:(main)
-%global optflags %{optflags} -O3 -fexceptions -fuse-ld=bfd
-%else
-%global optflags %{optflags} -O3 -fexceptions
-%endif
+%global optflags %{optflags} -O3
 
 Summary:	A GNU arbitrary precision library
 Name:		gmp
