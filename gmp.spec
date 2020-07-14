@@ -170,7 +170,7 @@ CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{ldflags}" \
 	--libdir=%{_libdir} \
 	--enable-cxx \
 	--enable-static \
-	--enable-fft || cat config.log && exit 1
+	--enable-fft
 
 sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
