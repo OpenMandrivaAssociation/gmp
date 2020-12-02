@@ -31,7 +31,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.2.1
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -151,7 +151,7 @@ cd build32
 CC="gcc -m32" CXX="g++ -m32" \
 CFLAGS="%(echo %{optflags} |sed -e 's,-m64,,g;s,-flto,,g')" \
 CXXFLAGS="%(echo %{optflags} |sed -e 's,-m64,,g;s,-flto,,g')" \
-LDFLAGS="%(echo %{ldflags} |sed -e 's,-m64,,g;s,-flto,,g') -m32" \
+LDFLAGS="%(echo %{build_ldflags} |sed -e 's,-m64,,g;s,-flto,,g') -m32" \
 ../configure \
 	--host=i686-openmandriva-linux-gnu \
 	--prefix=%{_prefix} \
@@ -164,7 +164,7 @@ cd ..
 mkdir build
 cd build
 CC="%{__cc}" CXX="%{__cxx}" \
-CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{ldflags}" \
+CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
 ../configure \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
@@ -187,7 +187,7 @@ export LD_LIBRARY_PATH=$(pwd)/.libs
 %endif
 
 # (tpg) configure script is sensitive on LTO so disable it and re-enable on make stage
-%make_build -C build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{ldflags} -flto"
+%make_build -C build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto"
 
 %if ! %cross_compiling
 %check
