@@ -39,10 +39,8 @@ Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar
 Source1:	%{name}.rpmlintrc
 Patch0:		gmp-5.1.0-x32-build-fix.patch
 Patch1:		gmp-6.1.2-execstackfix.patch
-%ifarch aarch64
 # (tpg) https://bugzilla.opensuse.org/show_bug.cgi?id=1179751
 Patch2:		gmp-6.2.1-arm64-invert_limb.patch
-%endif
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -204,7 +202,7 @@ cat build32/tests/*/test-suite.log
 
 export LD_LIBRARY_PATH=$(pwd)/build/.libs
 # All tests must pass
-make check -C build 
+make check -C build
 cat build/tests/*/test-suite.log
 %endif
 
