@@ -31,7 +31,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.2.1
-Release:	3
+Release:	4
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -44,7 +44,7 @@ Patch2:		gmp-6.2.1-arm64-invert_limb.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
-BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(ncurses)
 %if %{with compat32}
 BuildRequires:	devel(libncurses)
@@ -159,8 +159,9 @@ LDFLAGS="%(echo %{build_ldflags} |sed -e 's,-m64,,g;s,-flto,,g') -m32" \
 	--host=i686-openmandriva-linux-gnu \
 	--prefix=%{_prefix} \
 	--enable-cxx \
-	--enable-static \
-	--enable-fft
+	--enable-fat \
+	--enable-static
+
 cd ..
 %endif
 
@@ -172,8 +173,8 @@ CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
 	--enable-cxx \
-	--enable-static \
-	--enable-fft
+	--enable-fat \
+	--enable-static
 
 sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
     -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
