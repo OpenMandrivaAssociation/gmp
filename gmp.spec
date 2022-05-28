@@ -212,6 +212,9 @@ cat build/tests/*/test-suite.log
 %endif
 %make_install -C build
 
+# Fix hardcoded size of mp_limb_t (long) with GCC predefined macros
+sed -i '/#define GMP_LIMB_BITS/s/64/(__SIZEOF_LONG__ * __CHAR_BIT__)/' %{buildroot}%{_includedir}/gmp.h
+
 %files -n %{libname}
 %{_libdir}/libgmp.so.%{major}*
 
