@@ -31,17 +31,16 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.2.1
-Release:	4
+Release:	5
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
 Source0:	ftp://ftp.gmplib.org/pub/%{name}-%{majorversion}/%{name}-%{version}.tar.xz
 Source1:	%{name}.rpmlintrc
-Patch0:		gmp-5.1.0-x32-build-fix.patch
 Patch1:		gmp-6.1.2-execstackfix.patch
 # (tpg) https://bugzilla.opensuse.org/show_bug.cgi?id=1179751
 Patch2:		gmp-6.2.1-arm64-invert_limb.patch
-
+Patch3:		gmp-6.2.1-CVE-2021-43618.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(readline)
