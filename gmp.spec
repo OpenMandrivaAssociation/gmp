@@ -31,7 +31,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.2.1
-Release:	5
+Release:	6
 License:	GPLv3
 Group:		System/Libraries
 Url:		http://gmplib.org/
@@ -47,6 +47,7 @@ BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(ncurses)
 %if %{with compat32}
 BuildRequires:	devel(libncurses)
+BuildRequires:	libc6
 %endif
 
 %description
@@ -114,6 +115,7 @@ Summary:	Development tools for the GNU MP arbitrary precision library (32-bit)
 Group:		Development/C
 Requires:	%{lib32name} = %{EVRD}
 Requires:	%{devname} = %{EVRD}
+Requires:	libc6
 
 %description -n %{dev32name}
 The static libraries, header files and documentation for using the GNU MP
