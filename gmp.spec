@@ -173,6 +173,10 @@ CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
 ../configure \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
+%if %{cross_compiling}
+	--host=%{_target_platform} \
+	--target=%{_target_platform} \
+%endif
 	--enable-cxx \
 	--enable-fat \
 	--enable-static
