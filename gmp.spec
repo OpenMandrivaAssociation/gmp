@@ -6,6 +6,11 @@
 %bcond_with compat32
 %endif
 
+# Workaround for broken libtool messing with rpaths
+%if %{cross_compiling}
+%define prefer_gcc 1
+%endif
+
 # XXX this should really be the default behaviour of rpm..
 %define __requires_exclude_from %{_docdir}
 
