@@ -39,7 +39,7 @@ Version:	6.3.0
 Release:	1
 License:	GPLv3
 Group:		System/Libraries
-Url:		http://gmplib.org/
+Url:		https://gmplib.org/
 Source0:	https://gmplib.org/download/gmp/gmp-%{version}.tar.xz
 Source1:	%{name}.rpmlintrc
 Patch1:		gmp-6.1.2-execstackfix.patch
