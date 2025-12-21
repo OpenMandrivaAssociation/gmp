@@ -46,6 +46,7 @@ Patch1:		gmp-6.1.2-execstackfix.patch
 # (tpg) https://bugzilla.opensuse.org/show_bug.cgi?id=1179751
 Patch2:		gmp-6.2.1-arm64-invert_limb.patch
 Patch3:		gmp-6.3.0-compile.patch
+BuildRequires:	make
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(readline)
