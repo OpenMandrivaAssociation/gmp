@@ -6,6 +6,14 @@
 %bcond_with compat32
 %endif
 
+# loongarch64 clang (at least as a crosscompiler) doesn't like
+# some of the intrinsics used by gmp
+%if %{cross_compiling}
+%ifarch %{loongarch64}
+%define prefer_gcc 1
+%endif
+%endif
+
 # XXX this should really be the default behaviour of rpm..
 %define __requires_exclude_from %{_docdir}
 
