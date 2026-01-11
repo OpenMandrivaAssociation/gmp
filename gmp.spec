@@ -6,11 +6,6 @@
 %bcond_with compat32
 %endif
 
-# Workaround for broken libtool messing with rpaths
-%if %{cross_compiling}
-%define prefer_gcc 1
-%endif
-
 # XXX this should really be the default behaviour of rpm..
 %define __requires_exclude_from %{_docdir}
 
@@ -36,7 +31,7 @@
 Summary:	A GNU arbitrary precision library
 Name:		gmp
 Version:	6.3.0
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		System/Libraries
 Url:		https://gmplib.org/
@@ -158,7 +153,8 @@ export CONFIGURE_TOP="$(pwd)"
 %if %{with compat32}
 mkdir build32
 cd build32
-CC="gcc -m32" CXX="g++ -m32" \
+LIBTOOL=rlibtool \
+CC="%{__cc} -m32" CXX="%{__cxx} -m32" \
 CFLAGS="%(echo %{optflags} |sed -e 's,-m64,,g;s,-flto,,g')" \
 CXXFLAGS="%(echo %{optflags} |sed -e 's,-m64,,g;s,-flto,,g')" \
 LDFLAGS="%(echo %{build_ldflags} |sed -e 's,-m64,,g;s,-flto,,g') -m32" \
@@ -174,6 +170,7 @@ cd ..
 
 mkdir build
 cd build
+LIBTOOL=rlibtool \
 CC="%{__cc}" CXX="%{__cxx}" \
 CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
 ../configure \
@@ -187,42 +184,37 @@ CFLAGS="%{optflags}" CXXFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
 	--enable-fat \
 	--enable-static
 
-sed -e 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' \
-    -e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
-    -e 's|-lstdc++ -lm|-lstdc++|' \
-    -i libtool
-
 %build
 %define noconftarget 1
 
 export LD_LIBRARY_PATH=$(pwd)/.libs
 
 %if %{with compat32}
-%make_build -C build32
+%make_build -C build32 LIBTOOL=rlibtool
 %endif
 
 # (tpg) configure script is sensitive on LTO so disable it and re-enable on make stage
-%make_build -C build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto"
+%make_build -C build CFLAGS="%{optflags} -flto" CXXFLAGS="%{optflags} -flto" LDFLAGS="%{build_ldflags} -flto" LIBTOOL=rlibtool
 
 %if ! %cross_compiling
 %check
 %if %{with compat32}
 export LD_LIBRARY_PATH=$(pwd)/build32/.libs
-make check -C build32
+make check -C build32 LIBTOOL=rlibtool
 cat build32/tests/*/test-suite.log
 %endif
 
 export LD_LIBRARY_PATH=$(pwd)/build/.libs
 # All tests must pass
-make check -C build
+make check -C build LIBTOOL=rlibtool
 cat build/tests/*/test-suite.log
 %endif
 
 %install
 %if %{with compat32}
-%make_install -C build32
+%make_install -C build32 LIBTOOL=rlibtool
 %endif
-%make_install -C build
+%make_install -C build LIBTOOL=rlibtool
 
 # Fix hardcoded size of mp_limb_t (long) with GCC predefined macros
 sed -i '/#define GMP_LIMB_BITS/s/64/(__SIZEOF_LONG__ * __CHAR_BIT__)/' %{buildroot}%{_includedir}/gmp.h
